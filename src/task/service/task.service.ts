@@ -3,7 +3,7 @@ import { NotFoundException } from '@nestjs/common';
 import { Repository } from 'typeorm';
 
 import { TaskEntity } from '../entities/task.entity';
-import { TaskDto } from '../dto/task.dto';
+import { TaskDto, UpdateTaskDto } from '../dto/task.dto';
 
 export class TaskService {
   constructor(
@@ -28,7 +28,7 @@ export class TaskService {
     return this.taskRepository.save(newTask);
   }
 
-  async updateTask(id: number, changes: TaskDto) {
+  async updateTask(id: number, changes: UpdateTaskDto) {
     const task = await this.findOne(id);
     this.taskRepository.merge(task, changes);
     return this.taskRepository.save(task);

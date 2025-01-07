@@ -8,7 +8,7 @@ import {
   Post,
   Put,
 } from '@nestjs/common';
-import { TaskDto } from '../dto/task.dto';
+import { TaskDto, UpdateTaskDto } from '../dto/task.dto';
 import { TaskService } from '../service/task.service';
 
 @Controller('task')
@@ -31,7 +31,7 @@ export class TaskController {
   }
 
   @Put('/:id')
-  updateTask(@Param('id', ParseIntPipe) id: number, @Body() payload: TaskDto) {
+  updateTask(@Param('id', ParseIntPipe) id: number, @Body() payload: UpdateTaskDto) {
     return this.taskService.updateTask(id, payload);
   }
 
