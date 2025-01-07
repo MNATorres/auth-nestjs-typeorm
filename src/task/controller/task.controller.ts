@@ -31,7 +31,10 @@ export class TaskController {
   }
 
   @Put('/:id')
-  updateTask(@Param('id', ParseIntPipe) id: number, @Body() payload: UpdateTaskDto) {
+  updateTask(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() payload: UpdateTaskDto,
+  ) {
     return this.taskService.updateTask(id, payload);
   }
 
