@@ -1,8 +1,8 @@
 import { Global, Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { TaskEntity } from '../task/entities/task.entity';
 import { ConfigType } from '@nestjs/config';
 
+import { TaskEntity } from '../task/entities/task.entity';
 import config from 'src/config';
 
 @Global()

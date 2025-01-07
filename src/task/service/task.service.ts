@@ -1,8 +1,9 @@
 import { InjectRepository } from '@nestjs/typeorm';
-import { TaskEntity } from '../entities/task.entity';
-import { Repository } from 'typeorm';
-import { TaskDto } from '../dto/task.dto';
 import { NotFoundException } from '@nestjs/common';
+import { Repository } from 'typeorm';
+
+import { TaskEntity } from '../entities/task.entity';
+import { TaskDto } from '../dto/task.dto';
 
 export class TaskService {
   constructor(
@@ -17,7 +18,7 @@ export class TaskService {
   async findOne(id: number) {
     const task = await this.taskRepository.findOne({ where: { id } });
     if (!task) {
-      throw new NotFoundException(`User #${id} not found`);
+      throw new NotFoundException(`Task #${id} not found`);
     }
     return task;
   }
