@@ -17,11 +17,11 @@ export class User {
   @Column({ unique: true, nullable: false })
   email: string;
 
-  @Column({ nullable: false })
+  @Column({ nullable: false})
   password: string;
 
   @Column({ default: 'user' })
-  rol: string;
+  role: string;
 
   @CreateDateColumn({ type: 'datetime', default: () => 'CURRENT_TIMESTAMP' })
   created_at: Date;

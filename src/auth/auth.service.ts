@@ -27,10 +27,15 @@ export class AuthService {
 
     const hashedPassword = await bcryptjs.hash(registerDto.password, 10);
 
-    return this.userService.create({
+    await this.userService.create({
       ...registerDto,
       password: hashedPassword,
     });
+
+    return {
+      name: registerDto.name,
+      email: registerDto.email,
+    }
   }
 
   async login(loginDto: LoginDto) {
@@ -49,13 +54,23 @@ export class AuthService {
       throw new UnauthorizedException('Email or password is incorrect');
     }
 
-    const payload = { email: user.email };
+    const payload = { email: user.email, role: user.role };
     const token = await this.jwtService.signAsync(payload);
 
     return {
       token,
       email: user.email,
-      messaje: 'Login success',
+      role: user.role,
     };
+  }
+
+  async profile({ email, role }: { email: string; role: string }) {
+    // if (role !== 'admin') {
+    //   throw new UnauthorizedException(
+    //     'You are not authorized to access this resource',
+    //   );
+    // }
+    
+    return await this.userService.findOneByEmail(email);
   }
 }
