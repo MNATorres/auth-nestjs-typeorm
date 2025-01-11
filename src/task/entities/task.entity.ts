@@ -4,7 +4,10 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
   PrimaryGeneratedColumn,
+  ManyToOne,
+  JoinColumn,
 } from 'typeorm';
+import { User } from '../../users/entities/user.entity';
 
 @Entity('tasks')
 export class TaskEntity {
@@ -25,4 +28,8 @@ export class TaskEntity {
 
   @UpdateDateColumn({ type: 'datetime', default: () => 'CURRENT_TIMESTAMP' })
   updateAt: Date;
+  
+  @ManyToOne(() => User, (user) => user.tasks)
+  @JoinColumn({ name: 'userId' })
+  user: User;
 }

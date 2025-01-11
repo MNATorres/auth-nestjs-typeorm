@@ -25,6 +25,8 @@ export class TaskService {
 
   createTask(body: TaskDto) {
     const newTask = this.taskRepository.create(body);
+    console.log('newTask', newTask);
+    
     return this.taskRepository.save(newTask);
   }
 

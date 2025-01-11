@@ -10,7 +10,10 @@ import {
 } from '@nestjs/common';
 import { TaskDto, UpdateTaskDto } from '../dto/task.dto';
 import { TaskService } from '../service/task.service';
+import { Auth } from 'src/auth/decorators/auth.decorator';
+import { Role } from 'src/common/enums/rol.enum';
 
+@Auth(Role.USER)
 @Controller('task')
 export class TaskController {
   constructor(private taskService: TaskService) {}

@@ -9,7 +9,6 @@ import { UsersService } from 'src/users/service/users.service';
 import { RegisterDto } from './dto/register.dto';
 import { LoginDto } from './dto/login.dto';
 import { JwtService } from '@nestjs/jwt';
-import e from 'express';
 
 @Injectable()
 export class AuthService {
@@ -39,7 +38,8 @@ export class AuthService {
   }
 
   async login(loginDto: LoginDto) {
-    const user = await this.userService.findOneByEmail(loginDto.email);
+    const user = await this.userService.findOneByEmailWithPassword(loginDto.email);
+    console.log('user', user);
 
     if (!user) {
       throw new UnauthorizedException('Email or password is incorrect');
@@ -56,6 +56,9 @@ export class AuthService {
 
     const payload = { email: user.email, role: user.role };
     const token = await this.jwtService.signAsync(payload);
+
+    console.log('payload', payload);
+    
 
     return {
       token,
