@@ -54,14 +54,21 @@ export class AuthService {
     }
 
     const payload = { email: user.email, role: user.role };
+
     const accessToken = await this.jwtService.signAsync(payload);
+    const refreshToken = await this.jwtService.signAsync(payload, {
+      expiresIn: '7d',
+    });
+
     const body = {
       user: {
         email: user.email,
         role: user.role,
         name: user.name,
+        id: user.id,
       },
-      accessToken
+      accessToken,
+      refreshToken
     }
 
     return {
@@ -69,13 +76,22 @@ export class AuthService {
     };
   }
 
+  async refreshToken(refreshToken: string): Promise<{ accessToken: string }> {
+    try {
+      const payload = await this.jwtService.verifyAsync(refreshToken);
+      console.log('payload', payload);
+      
+      const newAccessToken = await this.jwtService.signAsync(
+        { email: payload.email, role: payload.role },
+        { expiresIn: '15m' },
+      );
+      return { accessToken: newAccessToken };
+    } catch (err) {
+      throw new UnauthorizedException('Invalid refresh token');
+    }
+  }
+
   async profile({ email, role }: { email: string; role: string }) {
-    // if (role !== 'admin') {
-    //   throw new UnauthorizedException(
-    //     'You are not authorized to access this resource',
-    //   );
-    // }
-    
     return await this.userService.findOneByEmail(email);
   }
 }
