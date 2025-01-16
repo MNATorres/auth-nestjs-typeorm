@@ -5,6 +5,7 @@ import {
   Entity,
   OneToMany,
   PrimaryGeneratedColumn,
+  UpdateDateColumn,
 } from 'typeorm';
 import { Role } from '../../common/enums/rol.enum';
 import { TaskEntity } from 'src/task/entities/task.entity';
@@ -26,11 +27,11 @@ export class User {
   @Column({ type: 'enum', default: Role.USER, enum: Role })
   role: Role;
 
-  @CreateDateColumn({ type: 'datetime', default: () => 'CURRENT_TIMESTAMP' })
-  created_at: Date;
+  @CreateDateColumn()
+  createAt: Date;
 
-  @CreateDateColumn({ type: 'datetime', default: () => 'CURRENT_TIMESTAMP' })
-  updated_at: Date;
+  @UpdateDateColumn()
+  updateAt: Date;
 
   @DeleteDateColumn()
   deleted_at: Date;

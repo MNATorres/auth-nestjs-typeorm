@@ -1,4 +1,5 @@
-import { IsString, IsBoolean, IsOptional, IsNumber } from 'class-validator';
+import { PartialType } from '@nestjs/mapped-types';
+import { IsString, IsBoolean, IsOptional, IsNumber, IsNotEmpty, IsPositive } from 'class-validator';
 
 export class TaskDto {
   @IsString()
@@ -11,19 +12,9 @@ export class TaskDto {
   done: boolean;
 
   @IsNumber()
+  @IsNotEmpty()
+  @IsPositive()
   userId: number;
 }
 
-export class UpdateTaskDto {
-  @IsString()
-  @IsOptional()
-  title?: string;
-
-  @IsString()
-  @IsOptional()
-  description?: string;
-
-  @IsBoolean()
-  @IsOptional()
-  done?: boolean;
-}
+export class UpdateTaskDto extends PartialType(TaskDto) {}
